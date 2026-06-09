@@ -49,9 +49,13 @@ python3 tools/build.py
 | `/course/` + `/course/<slug>/` | 코스 허브 + 8종 | 허브만 |
 | `/reservation/`·`/guide/`·`/customer/` | 예약·가이드·고객센터 허브(+ 하위) | 허브만 |
 | `/reviews/` | 후기 | ✅ |
+| `/magazine/` + `/magazine/category/<slug>/` + `/magazine/<slug>/` | 매거진(블로그) 허브 + 카테고리 4종 + 글 10편 | ✅ |
 | `/privacy/`·`/terms/`·`/youth/` | 정책 | ✅ |
 
-생성 페이지 총 68개 중 48개 색인 / 20개 noindex(얇은 하위 페이지).
+생성 페이지 총 83개 중 63개 색인 / 20개 noindex(얇은 하위 페이지).
+매거진 글은 손으로 작성한 고유 편집 콘텐츠이므로 본문 700자 이상이면 색인합니다
+(`build_magazine`). 카테고리: 이용가이드 · 코스·테마 · 지역·역세권 · 활용팁.
+글마다 `BlogPosting` + `BreadcrumbList` + `FAQPage` JSON-LD를 삽입합니다.
 
 ## 코스·요금 (기본 기준)
 
