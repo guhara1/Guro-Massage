@@ -48,9 +48,9 @@ BIZ = {
 }
 
 PRICES = [
-    ("60분 코스", "60분", "90,000", "처음 이용하거나 가볍게 피로를 풀고 싶을 때", False),
-    ("90분 코스", "90분", "150,000", "전신을 충분히 이완하는 가장 무난한 선택", True),
-    ("120분 코스", "120분", "180,000", "깊은 휴식과 전신 집중 관리를 원할 때", False),
+    ("60분 코스", "60분", "80,000", "기본 컨디션·릴렉스 케어", False),
+    ("90분 코스", "90분", "120,000", "아로마 포함 추천 구성", True),
+    ("120분 코스", "120분", "150,000", "전신 집중 프리미엄 케어", False),
 ]
 
 # ---------------------------------------------------------------------------
@@ -464,7 +464,7 @@ def nav(active=""):
 def footer():
     dong_links = "".join(f'<a href="/guro-gu/{d["slug"]}/">{d["name"]}</a>' for d in DONGS[:6])
     theme_links = "".join(f'<a href="/theme/{t["slug"]}/">{t["name"]}</a>' for t in THEMES[:6])
-    return f"""<section class="cta-band"><div>
+    return f"""{price_section()}<section class="cta-band"><div>
   <span class="eyebrow"><span class="pulse"></span>RESERVE</span>
   <h2>구로 출장마사지·홈타이 예약 문의</h2>
   <p>연중무휴 · 24시간 상담 · 전화 한 통으로 가능 여부를 안내드립니다.</p>
@@ -1020,15 +1020,6 @@ def build_home():
         f'<h3>{t["name"]}</h3><p>{html.escape(t["for"])}</p><span class="more">테마 보기 →</span></a>'
         for t in THEMES[:8])
 
-    price_cards = ""
-    for name, dur, won, dsc, best in PRICES:
-        badge = '<div class="pmenu-badge">추천</div>' if best else ''
-        cls = " best" if best else ""
-        price_cards += (f'<div class="pmenu-card{cls}">{badge}<div class="pmenu-name">{name}</div>'
-                        f'<div class="pmenu-price">{won}<span>원</span></div>'
-                        f'<div class="pmenu-dur">{dur} 기준</div>'
-                        f'<div class="pmenu-desc">{dsc}</div>'
-                        f'<a class="pmenu-btn" href="tel:{PHONE_TEL}">전화 예약</a></div>')
 
     faq = [
         ("구로구 전지역 방문이 가능한가요?",
@@ -1118,10 +1109,11 @@ def build_home():
 
     body += sec("course", "코스 선택 안내",
         "<p>코스는 이용 목적과 컨디션에 따라 선택하는 것이 좋습니다. 피로 회복, 편안한 휴식, 근육 이완, 숙소 방문, "
-        "커플 이용 등 상황에 맞는 기준을 제시하며, 자세한 설명은 <a href='/course/'>코스안내</a> 페이지에서 다룹니다.</p>"
-        f'<div class="pmenu">{price_cards}</div>'
-        '<div class="pmenu-note">표시 요금은 기본 기준이며, 지역·시간대·인원에 따라 달라질 수 있습니다. '
-        '정확한 금액은 <a href="/course/price/">가격 안내</a>와 예약 상담에서 확인하세요.</div>')
+        "커플 이용 등 상황에 맞는 기준을 제시하며, 자세한 설명은 <a href='/course/'>코스안내</a> 페이지에서 다룹니다. "
+        "기본 시간은 60·90·120분이며, 코스별 기본 요금은 이 페이지 하단의 "
+        "<a href='#price'>코스별 기본 요금</a> 표에서 확인하실 수 있습니다.</p>"
+        "<p>표시 요금은 기본 기준이며 지역·예약 시간대·이동 거리에 따라 상담 시 최종 확인됩니다. 정확한 금액과 "
+        "코스 구성은 <a href='/course/price/'>가격 안내</a>와 예약 상담에서 확인하세요.</p>")
 
     body += sec("process", "예약 진행 방식",
         "<p>예약은 ① 희망 지역 또는 역 인근 위치 확인 → ② 희망 시간 확인 → ③ 코스와 인원 확인 → "
@@ -1612,17 +1604,36 @@ def build_theme(t):
 # ---------------------------------------------------------------------------
 # 10. 코스 허브 (/course/) + 코스 8
 # ---------------------------------------------------------------------------
-def price_table_html():
+def price_cards_html():
     rows = ""
     for name, dur, won, dsc, best in PRICES:
         badge = '<div class="pmenu-badge">추천</div>' if best else ''
         cls = " best" if best else ""
         rows += (f'<div class="pmenu-card{cls}">{badge}<div class="pmenu-name">{name}</div>'
                  f'<div class="pmenu-price">{won}<span>원</span></div>'
-                 f'<div class="pmenu-dur">{dur} 기준</div>'
+                 f'<div class="pmenu-dur">{dur}</div>'
                  f'<div class="pmenu-desc">{dsc}</div>'
-                 f'<a class="pmenu-btn" href="tel:{PHONE_TEL}">전화 예약</a></div>')
+                 f'<a class="pmenu-btn" href="tel:{PHONE_TEL}">예약 문의</a></div>')
     return f'<div class="pmenu">{rows}</div>'
+
+
+def price_table_html():
+    """본문 섹션 안에 넣는 요금표(카드 + 안내문)."""
+    return (price_cards_html() +
+            '<div class="pmenu-note">표시 요금은 기본 기준이며 지역·예약 시간대·이동 거리에 따라 '
+            '상담 시 최종 확인됩니다. <a href="/course/price/">상세 요금 안내 보기 →</a></div>')
+
+
+def price_section():
+    """전 페이지 공통으로 푸터 위에 노출되는 ‘코스별 기본 요금’ 섹션."""
+    return f"""<section class="block" id="price" aria-label="코스별 기본 요금"><div class="wrap">
+  <span class="eyebrow"><span class="pulse"></span>요금 안내</span>
+  <h2 class="sec">코스별 기본 요금</h2>
+  <p class="sec-lead">60·90·120분 코스별 기본 요금입니다. 숨겨진 추가 비용 없이 투명하게 안내합니다.</p>
+  {price_cards_html()}
+  <div class="pmenu-note">지역·예약 시간대·이동 거리에 따라 상담 시 최종 확인됩니다. <a href="/course/price/">상세 요금 안내 보기 →</a></div>
+</div></section>
+"""
 
 
 def build_courses():
@@ -1643,10 +1654,12 @@ def build_courses():
          "오래(코스 시간)’ 받을지를 함께 정하는 방식입니다. 어떤 조합이 맞을지 고민된다면 "
          "<a href='/course/guide/'>코스 선택 가이드</a>에서 목적별 기준을 확인하거나 예약 상담에서 추천받으실 수 "
          "있습니다.</p>"),
-        ("price", "기본 요금",
-         price_table_html() +
-         '<div class="pmenu-note">표시 요금은 기본 기준이며 지역·시간대·인원에 따라 달라질 수 있습니다. '
-         '정확한 금액은 <a href="/course/price/">가격 안내</a>와 예약 상담에서 확인하세요.</div>'),
+        ("fee", "기본 요금",
+         "<p>기본 요금은 60분 80,000원, 90분 120,000원, 120분 150,000원입니다. 90분 코스는 아로마를 포함한 추천 "
+         "구성으로 가장 많이 선택됩니다. 코스별 기본 요금표는 이 페이지 하단의 "
+         "<a href='#price'>코스별 기본 요금</a>에서 카드로 확인하실 수 있습니다.</p>"
+         "<p>표시 요금은 기본 기준이며 지역·예약 시간대·이동 거리에 따라 상담 시 최종 확인됩니다. 자세한 기준은 "
+         "<a href='/course/price/'>가격 안내</a>에서 다루며, 정확한 금액은 예약 상담에서 안내드립니다.</p>"),
         ("list", "코스 종류",
          "<p>아래 카드에서 목적에 맞는 코스를 선택하면 구성과 추천 상황, 예약 방법을 확인할 수 있습니다. 피로 "
          "회복부터 아로마·스포츠·홈타이·커플·기업 단체까지, 상황별로 나누어 안내합니다.</p>"
@@ -1680,8 +1693,12 @@ def build_course(c):
     desc = f"{name} 안내입니다. {html.escape(c['desc'])}"
     if c["slug"] == "price":
         body_intro = (f"<p>{c['desc']} 기본 시간은 60·90·120분이며, 표시 요금은 기준 금액입니다.</p>"
-                      + price_table_html() +
-                      '<div class="pmenu-note">지역·시간대·인원에 따라 금액이 달라질 수 있어, 정확한 금액은 예약 상담에서 안내합니다.</div>')
+                      "<ul><li>60분 코스 — 80,000원 · 기본 컨디션·릴렉스 케어</li>"
+                      "<li>90분 코스 — 120,000원 · 아로마 포함 추천 구성 (가장 많이 선택)</li>"
+                      "<li>120분 코스 — 150,000원 · 전신 집중 프리미엄 케어</li></ul>"
+                      "<p>카드 형태의 코스별 기본 요금표는 이 페이지 하단의 <a href='#price'>코스별 기본 요금</a>에서 "
+                      "확인하실 수 있습니다. 지역·예약 시간대·이동 거리에 따라 금액이 달라질 수 있어, 정확한 금액은 "
+                      "예약 상담에서 최종 안내합니다.</p>")
     elif c["slug"] == "guide":
         body_intro = ("<p>코스 선택은 ‘무엇을 풀고 싶은가’에서 시작합니다. 전반적인 피로라면 "
                       "<a href='/course/fatigue/'>피로 회복 관리</a>, 스트레스 해소와 분위기 있는 휴식이라면 "
@@ -1790,9 +1807,10 @@ RES_CONTENT = {
         ("intro", "결제 안내",
          "<p>결제 방식과 시점은 예약 상담 과정에서 안내드립니다. 표시된 코스 요금은 기본 기준이며, 지역·시간대·인원·"
          "이동 거리에 따라 금액이 달라질 수 있습니다. 정확한 금액은 예약 확정 전에 안내됩니다.</p>"),
-        ("price", "기준 요금",
-         price_table_html() +
-         '<div class="pmenu-note">자세한 요금 기준은 <a href="/course/price/">가격 안내</a>에서 확인할 수 있습니다.</div>'),
+        ("fee", "기준 요금",
+         "<p>코스별 기본 요금은 60분 80,000원, 90분 120,000원, 120분 150,000원입니다. 카드 형태의 요금표는 이 "
+         "페이지 하단의 <a href='#price'>코스별 기본 요금</a>에서 확인하실 수 있습니다. 자세한 요금 기준은 "
+         "<a href='/course/price/'>가격 안내</a>에서 다룹니다.</p>"),
         ("notice", "결제 시 유의사항",
          "<ul><li>예약 전 금액을 반드시 확인하세요</li><li>추가 요청에 따른 변동 금액은 사전에 안내됩니다</li>"
          "<li>부당한 추가 요구나 불법 행위는 일절 제공하지 않습니다</li></ul>"),
