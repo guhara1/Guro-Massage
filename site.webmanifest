@@ -1,0 +1,11 @@
+{
+  "name": "구로88마사지",
+  "short_name": "구로88마사지",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0b0e",
+  "theme_color": "#0b0b0e",
+  "icons": [
+    {"src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}
