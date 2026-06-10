@@ -29,6 +29,6 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://guro88massage.pages.dev/sitemap.xml
-Sitemap: https://guro88massage.pages.dev/rss.xml
-Host: https://guro88massage.pages.dev
+Sitemap: https://guro-massage.pages.dev/sitemap.xml
+Sitemap: https://guro-massage.pages.dev/rss.xml
+Host: https://guro-massage.pages.dev

@@ -5,7 +5,7 @@
 
 - **상호**: 구로88마사지
 - **전화 예약**: 0508-202-4719 (`tel:+825082024719`) · 연중무휴 24시간 상담
-- **도메인(예시)**: `https://guro88massage.pages.dev` — 실제 도메인으로 교체 필요
+- **도메인**: `https://guro-massage.pages.dev` (Cloudflare Pages)
 
 ## 빌드 방법
 

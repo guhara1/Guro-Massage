@@ -29,7 +29,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE_NAME = "구로88마사지"
 TAGLINE = "GURO 88 MASSAGE"
 BRAND_MARK = "구"
-DOMAIN = "https://guro88massage.pages.dev"
+DOMAIN = "https://guro-massage.pages.dev"
 PHONE_DISPLAY = "0508-202-4719"
 PHONE_TEL = "+825082024719"
 # 날짜는 빌드 시점 기준으로 생성한다(요일 자동 정확 + 미래 날짜 방지 → 네이버 RSS 형식 오류 예방).
