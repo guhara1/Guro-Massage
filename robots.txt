@@ -1,7 +1,25 @@
+# 모든 검색엔진 허용
 User-agent: *
 Allow: /
 Disallow: /tools/
 
+# 네이버
+User-agent: Yeti
+Allow: /
+
+# 구글
+User-agent: Googlebot
+Allow: /
+
+# 빙(IndexNow)
+User-agent: bingbot
+Allow: /
+
+# 다음
+User-agent: Daumoa
+Allow: /
+
+# AI 크롤러
 User-agent: GPTBot
 Allow: /
 
@@ -12,4 +30,5 @@ User-agent: Google-Extended
 Allow: /
 
 Sitemap: https://guro88massage.pages.dev/sitemap.xml
+Sitemap: https://guro88massage.pages.dev/rss.xml
 Host: https://guro88massage.pages.dev

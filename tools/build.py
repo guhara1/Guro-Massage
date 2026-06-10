@@ -31,9 +31,15 @@ DOMAIN = "https://guro88massage.pages.dev"
 PHONE_DISPLAY = "0508-202-4719"
 PHONE_TEL = "+825082024719"
 TODAY = "2026.06.09"
+TODAY_ISO = "2026-06-09"          # 사이트맵 lastmod / RSS 발행일 기준(YYYY-MM-DD)
+TODAY_RFC822 = "Mon, 09 Jun 2026 09:00:00 +0900"  # RSS pubDate(RFC-822)
 
 # 사이트 소유확인(네이버 서치어드바이저 등). 빈 문자열이면 출력 안 함.
 NAVER_VERIFY = "0671f4b1198aa0458148f87059c58acbc2ba4a31"
+
+# IndexNow 키(빙·네이버·얀덱스 즉시 색인 통보). 루트에 <키>.txt 파일로도 게시된다.
+# 새 사이트면 32자리 16진수로 교체하고 키 파일도 함께 갱신할 것.
+INDEXNOW_KEY = "8f4b2c9a1e7d6035b8c4f2a9e1d7c3b6"
 
 # 본문 글자수(공백 제외) 하한. 이 값 미만이면 noindex 처리한다.
 # 사양서 기준은 2,000자이며, 콘텐츠 핵심 페이지(메인·지역 동 10곳)는 모두 2,000자 이상으로 색인된다.
@@ -371,6 +377,7 @@ def head(title, desc, path, noindex=False, og_type="website"):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <link rel="manifest" href="/site.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="{SITE_NAME} 매거진" href="/rss.xml">
 <style>{CSS}</style>
 </head>
 <body>
@@ -2594,12 +2601,13 @@ def build_magazine():
 # 12. 루트 파일: sitemap.xml / robots.txt / webmanifest / favicon / og
 # ---------------------------------------------------------------------------
 def build_root_files():
-    # sitemap (noindex 페이지는 제외)
+    # sitemap (noindex 페이지는 제외, lastmod 포함)
     urls = ""
     for path, noindex, pr, cf in sorted(PAGES):
         if noindex:
             continue
         urls += (f"  <url><loc>{DOMAIN}{path}</loc>"
+                 f"<lastmod>{TODAY_ISO}</lastmod>"
                  f"<changefreq>{cf}</changefreq><priority>{pr}</priority></url>\n")
     sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -2607,11 +2615,51 @@ def build_root_files():
     with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write(sitemap)
 
-    robots = (f"User-agent: *\nAllow: /\nDisallow: /tools/\n\n"
-              "User-agent: GPTBot\nAllow: /\n\n"
-              "User-agent: ClaudeBot\nAllow: /\n\n"
-              "User-agent: Google-Extended\nAllow: /\n\n"
-              f"Sitemap: {DOMAIN}/sitemap.xml\nHost: {DOMAIN}\n")
+    # RSS 2.0 피드 (매거진 글) — 새 글 발행 시 색인·구독 채널
+    items = ""
+    for a in ARTICLES:
+        link = f"{DOMAIN}/magazine/{a['slug']}/"
+        cat = next((c["name"] for c in MAG_CATS if c["slug"] == a["cat"]), a["cat"])
+        items += (f"  <item>\n"
+                  f"    <title>{html.escape(a['title'])}</title>\n"
+                  f"    <link>{link}</link>\n"
+                  f"    <guid isPermaLink=\"true\">{link}</guid>\n"
+                  f"    <category>{html.escape(cat)}</category>\n"
+                  f"    <pubDate>{TODAY_RFC822}</pubDate>\n"
+                  f"    <description>{html.escape(a['desc'])}</description>\n"
+                  f"  </item>\n")
+    rss = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
+           '<channel>\n'
+           f'  <title>{SITE_NAME} 매거진</title>\n'
+           f'  <link>{DOMAIN}/magazine/</link>\n'
+           f'  <description>구로 출장마사지·홈타이 이용가이드·코스·테마·지역 안내 매거진</description>\n'
+           f'  <language>ko-KR</language>\n'
+           f'  <lastBuildDate>{TODAY_RFC822}</lastBuildDate>\n'
+           f'  <atom:link href="{DOMAIN}/rss.xml" rel="self" type="application/rss+xml"/>\n'
+           f'{items}'
+           '</channel>\n</rss>\n')
+    with open(os.path.join(ROOT, "rss.xml"), "w", encoding="utf-8") as f:
+        f.write(rss)
+
+    # IndexNow 키 파일 (루트 게시 필수)
+    with open(os.path.join(ROOT, f"{INDEXNOW_KEY}.txt"), "w", encoding="utf-8") as f:
+        f.write(INDEXNOW_KEY + "\n")
+
+    # robots.txt — 네이버(Yeti)·구글·빙 명시 허용 + 사이트맵/RSS
+    robots = (
+        "# 모든 검색엔진 허용\n"
+        "User-agent: *\nAllow: /\nDisallow: /tools/\n\n"
+        "# 네이버\nUser-agent: Yeti\nAllow: /\n\n"
+        "# 구글\nUser-agent: Googlebot\nAllow: /\n\n"
+        "# 빙(IndexNow)\nUser-agent: bingbot\nAllow: /\n\n"
+        "# 다음\nUser-agent: Daumoa\nAllow: /\n\n"
+        "# AI 크롤러\nUser-agent: GPTBot\nAllow: /\n\n"
+        "User-agent: ClaudeBot\nAllow: /\n\n"
+        "User-agent: Google-Extended\nAllow: /\n\n"
+        f"Sitemap: {DOMAIN}/sitemap.xml\n"
+        f"Sitemap: {DOMAIN}/rss.xml\n"
+        f"Host: {DOMAIN}\n")
     with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(robots)
 

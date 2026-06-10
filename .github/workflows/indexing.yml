@@ -1,0 +1,51 @@
+name: Fast Indexing (IndexNow + Google)
+
+# 사이트 콘텐츠가 변경되어 main에 push될 때마다 검색엔진에 즉시 색인 통보.
+# - IndexNow: 빙·네이버·얀덱스 (키 파일이 배포되어 접근 가능해야 함)
+# - Google Indexing API: 시크릿(GOOGLE_INDEXING_CREDENTIALS)이 설정된 경우에만 실행
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**/index.html"
+      - "sitemap.xml"
+      - "rss.xml"
+      - "tools/**"
+  workflow_dispatch:   # 수동 실행 허용
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexing-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # 빌드(사이트맵/RSS/키파일 최신화) — 배포는 호스팅(Cloudflare Pages)이 담당
+      - name: Build site (refresh sitemap/rss)
+        run: python3 tools/build.py
+
+      # 1) IndexNow — 빙·네이버·얀덱스 즉시 통보
+      - name: Submit to IndexNow
+        run: python3 tools/indexnow.py
+
+      # 2) Google Indexing API — 시크릿이 있을 때만
+      - name: Submit to Google Indexing API
+        if: ${{ secrets.GOOGLE_INDEXING_CREDENTIALS != '' }}
+        env:
+          GOOGLE_INDEXING_CREDENTIALS: ${{ secrets.GOOGLE_INDEXING_CREDENTIALS }}
+        run: |
+          pip install --quiet google-auth requests
+          printf '%s' "$GOOGLE_INDEXING_CREDENTIALS" > /tmp/gsa.json
+          GOOGLE_APPLICATION_CREDENTIALS=/tmp/gsa.json python3 tools/google_indexing.py --sitemap
+          rm -f /tmp/gsa.json

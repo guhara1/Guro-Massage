@@ -73,6 +73,48 @@ python3 tools/build.py
 빌드 산출물이 곧 배포물입니다. 저장소를 정적 호스팅에 연결하고
 빌드 명령으로 `python3 tools/build.py`를 지정하면 됩니다.
 
+## 검색 등록 · 빠른 인덱싱
+
+빌드 시 자동 생성되는 색인 자산:
+
+| 파일 | 용도 |
+|---|---|
+| `sitemap.xml` | 색인 대상 전 페이지(`lastmod` 포함, noindex 제외) |
+| `rss.xml` | 매거진 RSS 2.0 피드(새 글 발행 채널, `<head>`에 자동발견 링크) |
+| `robots.txt` | 네이버(Yeti)·구글(Googlebot)·빙(bingbot)·다음(Daumoa) 허용 + Sitemap·RSS |
+| `<INDEXNOW_KEY>.txt` | IndexNow 키 파일(루트 게시) |
+
+### 1) 검색엔진 소유확인 + 사이트맵 제출 (최초 1회)
+- **네이버 서치어드바이저**: 사이트 등록 → (메인 `<head>`의 `naver-site-verification` 메타로) 소유확인 → `sitemap.xml`·`rss.xml` 제출.
+- **구글 서치콘솔**: 속성 등록 → 소유확인 → `sitemap.xml` 제출.
+- **빙 웹마스터**: 사이트 추가 → `sitemap.xml` 제출(구글 서치콘솔에서 가져오기 가능).
+
+### 2) IndexNow — 빙·네이버·얀덱스 즉시 통보
+글을 올리거나 페이지를 바꾼 직후 실행하면 됩니다.
+```bash
+python3 tools/indexnow.py            # 사이트맵 전체 제출
+python3 tools/indexnow.py --new      # 매거진 글 URL만 제출
+python3 tools/indexnow.py https://도메인/magazine/새글/   # 특정 URL
+```
+공유 엔드포인트(`api.indexnow.org`) 한 번 제출로 **빙·네이버·얀덱스**에 전파됩니다.
+키 파일(`/<INDEXNOW_KEY>.txt`)이 실제 도메인에서 접근 가능해야 합니다.
+
+### 3) 구글 Indexing API (구글은 IndexNow 미참여)
+```bash
+# 사전: Indexing API 사용설정 + 서비스계정 JSON + Search Console 속성에 소유자 추가
+pip install google-auth requests
+GOOGLE_APPLICATION_CREDENTIALS=service-account.json \
+  python3 tools/google_indexing.py --new
+```
+
+### 4) 자동화 (GitHub Actions)
+`.github/workflows/indexing.yml` — `main`에 콘텐츠가 push되면 자동으로
+IndexNow 제출(+시크릿 `GOOGLE_INDEXING_CREDENTIALS`가 있으면 구글 Indexing API)까지 실행합니다.
+
+> **sitemap ping 관련**: 구글은 sitemap ping(`/ping?sitemap=`)을 2023년 6월,
+> 빙도 유사하게 폐기했습니다. 현재 표준은 **서치콘솔/웹마스터 사이트맵 제출 + IndexNow**이며,
+> 이 저장소는 그 방식으로 구성되어 있습니다.
+
 ## 새 사이트로 복제 / 값 교체
 
 `tools/build.py` 상단 **설정 블록**만 바꾸면 전 페이지에 반영됩니다.
