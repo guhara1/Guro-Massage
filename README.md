@@ -53,8 +53,9 @@ python3 tools/build.py
 | `/privacy/`·`/terms/`·`/youth/` | 정책 | ✅ |
 
 생성 페이지 총 83개 중 63개 색인 / 20개 noindex(얇은 하위 페이지).
-매거진 글은 손으로 작성한 고유 편집 콘텐츠이므로 본문 700자 이상이면 색인합니다
-(`build_magazine`). 카테고리: 이용가이드 · 코스·테마 · 지역·역세권 · 활용팁.
+매거진 글은 `tools/articles.py`에 분리해 손으로 작성한 고유 편집 콘텐츠이며,
+글마다 본문(리드+섹션+FAQ, 공백 포함) **2,000~2,500자**로 작성했습니다(도어웨이·스팸·복사·중복 금지).
+카테고리: 이용가이드 · 코스·테마 · 지역·역세권 · 활용팁.
 글마다 `BlogPosting` + `BreadcrumbList` + `FAQPage` JSON-LD를 삽입합니다.
 
 ## 코스·요금 (기본 기준)
@@ -83,6 +84,13 @@ python3 tools/build.py
   (※ `reg`·`addr` 등 미정 값은 운영자가 확정 후 교체)
 - `PRICES` — 코스·시간·요금
 - `NOINDEX_MIN` — 색인 본문 하한
+
+## 매거진 콘텐츠 추가/수정
+
+매거진 글과 카테고리는 `tools/articles.py`의 `ARTICLES`·`MAG_CATS`에 정의되어 있습니다.
+글 1편 = `{slug, cat, title, h1, desc, lead, secs[(소제목, HTML)], faq[(질문, 답)], related}`.
+글마다 본문을 2,000~2,500자(공백 포함)로 고유하게 작성하고 `python3 tools/build.py`를
+실행하면 글 페이지·허브·카테고리·sitemap이 갱신됩니다.
 
 ## 참고 문서
 
