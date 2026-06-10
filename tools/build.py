@@ -18,6 +18,8 @@ import os
 import re
 import html
 import json
+import datetime
+from email.utils import format_datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -30,9 +32,12 @@ BRAND_MARK = "구"
 DOMAIN = "https://guro88massage.pages.dev"
 PHONE_DISPLAY = "0508-202-4719"
 PHONE_TEL = "+825082024719"
-TODAY = "2026.06.09"
-TODAY_ISO = "2026-06-09"          # 사이트맵 lastmod / RSS 발행일 기준(YYYY-MM-DD)
-TODAY_RFC822 = "Mon, 09 Jun 2026 09:00:00 +0900"  # RSS pubDate(RFC-822)
+# 날짜는 빌드 시점 기준으로 생성한다(요일 자동 정확 + 미래 날짜 방지 → 네이버 RSS 형식 오류 예방).
+_KST = datetime.timezone(datetime.timedelta(hours=9))
+_NOW = datetime.datetime.now(_KST)
+TODAY = _NOW.strftime("%Y.%m.%d")            # 화면 표기용(바이라인)
+TODAY_ISO = _NOW.strftime("%Y-%m-%d")        # 사이트맵 lastmod / JSON-LD 날짜
+TODAY_RFC822 = format_datetime(_NOW)          # RSS pubDate(RFC-822, 요일 자동 정확)
 
 # 사이트 소유확인(네이버 서치어드바이저 등). 빈 문자열이면 출력 안 함.
 NAVER_VERIFY = "0671f4b1198aa0458148f87059c58acbc2ba4a31"
@@ -626,8 +631,8 @@ def jsonld_blogposting(title, desc, path):
         "headline": title,
         "description": desc,
         "image": DOMAIN + "/assets/og-cover.svg",
-        "datePublished": "2026-06-09",
-        "dateModified": "2026-06-09",
+        "datePublished": TODAY_ISO,
+        "dateModified": TODAY_ISO,
         "inLanguage": "ko-KR",
         "author": _author(),
         "publisher": _publisher(),
@@ -2621,19 +2626,19 @@ def build_root_files():
         link = f"{DOMAIN}/magazine/{a['slug']}/"
         cat = next((c["name"] for c in MAG_CATS if c["slug"] == a["cat"]), a["cat"])
         items += (f"  <item>\n"
-                  f"    <title>{html.escape(a['title'])}</title>\n"
+                  f"    <title><![CDATA[{a['title']}]]></title>\n"
                   f"    <link>{link}</link>\n"
                   f"    <guid isPermaLink=\"true\">{link}</guid>\n"
-                  f"    <category>{html.escape(cat)}</category>\n"
+                  f"    <category><![CDATA[{cat}]]></category>\n"
                   f"    <pubDate>{TODAY_RFC822}</pubDate>\n"
-                  f"    <description>{html.escape(a['desc'])}</description>\n"
+                  f"    <description><![CDATA[{a['desc']}]]></description>\n"
                   f"  </item>\n")
     rss = ('<?xml version="1.0" encoding="UTF-8"?>\n'
            '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n'
            '<channel>\n'
-           f'  <title>{SITE_NAME} 매거진</title>\n'
+           f'  <title><![CDATA[{SITE_NAME} 매거진]]></title>\n'
            f'  <link>{DOMAIN}/magazine/</link>\n'
-           f'  <description>구로 출장마사지·홈타이 이용가이드·코스·테마·지역 안내 매거진</description>\n'
+           f'  <description><![CDATA[구로 출장마사지·홈타이 이용가이드·코스·테마·지역 안내 매거진]]></description>\n'
            f'  <language>ko-KR</language>\n'
            f'  <lastBuildDate>{TODAY_RFC822}</lastBuildDate>\n'
            f'  <atom:link href="{DOMAIN}/rss.xml" rel="self" type="application/rss+xml"/>\n'
