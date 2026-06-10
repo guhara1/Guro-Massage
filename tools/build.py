@@ -32,6 +32,9 @@ PHONE_DISPLAY = "0508-202-4719"
 PHONE_TEL = "+825082024719"
 TODAY = "2026.06.09"
 
+# 사이트 소유확인(네이버 서치어드바이저 등). 빈 문자열이면 출력 안 함.
+NAVER_VERIFY = "0671f4b1198aa0458148f87059c58acbc2ba4a31"
+
 # 본문 글자수(공백 제외) 하한. 이 값 미만이면 noindex 처리한다.
 # 사양서 기준은 2,000자이며, 콘텐츠 핵심 페이지(메인·지역 동 10곳)는 모두 2,000자 이상으로 색인된다.
 # 지하철역·테마·허브 페이지는 고유 내용이 충분하나 분량이 더 짧으므로(억지 채움=도어웨이 위험),
@@ -336,6 +339,9 @@ def head(title, desc, path, noindex=False, og_type="website"):
     url = DOMAIN + path
     robots = ("noindex,follow" if noindex else
               "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1")
+    # 네이버 사이트 소유확인 메타 — 메인페이지에만 출력
+    naver = (f'\n<meta name="naver-site-verification" content="{NAVER_VERIFY}">'
+             if path == "/" and NAVER_VERIFY else "")
     t = html.escape(title)
     d = html.escape(desc)
     return f"""<!doctype html>
@@ -345,7 +351,7 @@ def head(title, desc, path, noindex=False, og_type="website"):
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0b0e">
 <meta name="format-detection" content="telephone=no">
-<meta name="robots" content="{robots}">
+<meta name="robots" content="{robots}">{naver}
 <title>{t}</title>
 <meta name="description" content="{d}">
 <meta name="author" content="{SITE_NAME} 운영팀">
