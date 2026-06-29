@@ -9,16 +9,16 @@
 <title>매거진 | 구로 출장마사지·홈타이 안내 블로그</title>
 <meta name="description" content="구로 출장마사지·홈타이 이용가이드, 코스·테마, 지역·역세권, 활용팁을 정리한 매거진입니다.">
 <meta name="author" content="구로88마사지 운영팀">
-<link rel="canonical" href="https://guro-massage.pages.dev/magazine/">
-<link rel="alternate" hreflang="ko-KR" href="https://guro-massage.pages.dev/magazine/">
-<link rel="alternate" hreflang="x-default" href="https://guro-massage.pages.dev/magazine/">
+<link rel="canonical" href="https://guro-massage.netlify.app/magazine/">
+<link rel="alternate" hreflang="ko-KR" href="https://guro-massage.netlify.app/magazine/">
+<link rel="alternate" hreflang="x-default" href="https://guro-massage.netlify.app/magazine/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="구로88마사지">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:title" content="매거진 | 구로 출장마사지·홈타이 안내 블로그">
 <meta property="og:description" content="구로 출장마사지·홈타이 이용가이드, 코스·테마, 지역·역세권, 활용팁을 정리한 매거진입니다.">
-<meta property="og:url" content="https://guro-massage.pages.dev/magazine/">
-<meta property="og:image" content="https://guro-massage.pages.dev/assets/og-cover.svg">
+<meta property="og:url" content="https://guro-massage.netlify.app/magazine/">
+<meta property="og:image" content="https://guro-massage.netlify.app/assets/og-cover.svg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -206,6 +206,14 @@ details>div{padding:0 22px 20px;color:var(--muted);font-size:14.5px;line-height:
 .data-box{margin:24px 0;padding:20px 22px;border-radius:14px;background:var(--grad-soft);border:1px solid var(--line)}
 .data-box b{color:var(--gold);display:block;font-size:11px;letter-spacing:.14em;margin-bottom:8px;text-transform:uppercase}
 .data-box p{color:var(--muted);font-size:13.5px;margin:0;line-height:1.8}
+.linkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:12px;margin:6px 0 4px}
+.linkgrid a{display:flex;flex-direction:column;gap:4px;padding:15px 17px;border-radius:13px;border:1px solid var(--line);
+  background:linear-gradient(135deg,var(--surface),var(--surface-2));transition:.25s;border-bottom:none}
+.linkgrid a:hover{transform:translateY(-3px);border-color:rgba(244,210,156,.34);box-shadow:0 16px 38px rgba(0,0,0,.3)}
+.linkgrid a b{color:var(--text);font-size:14.5px;font-weight:700;letter-spacing:-.01em;border-bottom:none}
+.linkgrid a span{color:var(--muted);font-size:12.5px;line-height:1.55}
+.linkgrid a b::after{content:" →";color:var(--rose);font-weight:700;opacity:0;transition:.25s}
+.linkgrid a:hover b::after{opacity:1}
 .lux-hero{position:relative;overflow:hidden;border-bottom:1px solid rgba(244,210,156,.14);
   background:radial-gradient(70% 120% at 88% -10%,rgba(233,184,167,.14),transparent 60%),
              linear-gradient(180deg,#0d1018,#0b0b0e);padding:54px 0 40px}
@@ -356,7 +364,7 @@ details>div{padding:0 22px 20px;color:var(--muted);font-size:14.5px;line-height:
 <p>아래에서 원하는 글을 골라 읽어보세요. 모든 글에는 발행·수정일과 책임 주체(운영팀)를 표기합니다.</p><div class="grid g3"><a class="card reveal" href="/magazine/guro-massage-first-guide/"><div class="k">이용가이드</div><h3>구로 출장마사지·홈타이, 처음이라면 이렇게 이용하세요</h3><p>구로 출장마사지·홈타이가 처음인 분을 위한 단계별 이용 가이드입니다. 예약 방법, 코스 선택, 방문 준비, 관리 후 주의사항을 한 번에 정리했습니다.…</p><span class="more">읽어보기 →</span></a><a class="card reveal" href="/magazine/swedish-vs-aroma/"><div class="k">코스·테마</div><h3>스웨디시와 아로마테라피, 무엇이 다를까</h3><p>대표 이완 관리인 스웨디시와 아로마테라피의 차이와 선택 기준을 정리했습니다. 목적과 상황에 맞는 테마 고르기.…</p><span class="more">읽어보기 →</span></a><a class="card reveal" href="/magazine/office-worker-recovery/"><div class="k">활용팁</div><h3>야근 잦은 직장인을 위한 피로 회복 관리</h3><p>구로디지털단지·구로동 직장인을 위한 어깨·허리 뭉침 해소와 피로 회복 관리 안내입니다.…</p><span class="more">읽어보기 →</span></a><a class="card reveal" href="/magazine/hometai-prepare-guide/"><div class="k">이용가이드</div><h3>홈타이 방문 전, 이것만 준비하면 됩니다</h3><p>홈타이(가정 방문 관리) 전에 확인할 공간·출입·주차·소통 사항을 정리한 준비 가이드입니다.…</p><span class="more">읽어보기 →</span></a><a class="card reveal" href="/magazine/hygiene-safety-checklist/"><div class="k">이용가이드</div><h3>안전한 방문 관리를 위한 위생·안전 체크리스트</h3><p>방문 관리를 안전하게 이용하기 위한 위생·안전 기준과 이용자가 확인하면 좋은 점을 정리했습니다.…</p><span class="more">읽어보기 →</span></a><a class="card reveal" href="/magazine/guro-station-area-tips/"><div class="k">지역·역세권</div><h3>구로 역세권별 방문 마사지 이용 팁</h3><p>구로구 1·2·7호선 주요 역세권의 특징과 방문 관리 이용 팁을 정리했습니다. 신도림·구로·남구로·온수역 등.…</p><span class="more">읽어보기 →</span></a><a class="card reveal" href="/magazine/couple-home-care/"><div class="k">코스·테마</div><h3>커플·가족이 함께 받는 홈케어 안내</h3><p>두 분 이상이 함께 받는 커플·가족 방문 관리 안내입니다. 기념일이나 휴식을 함께 보내고 싶을 때 참고하세요.…</p><span class="more">읽어보기 →</span></a><a class="card reveal" href="/magazine/sleep-aroma-routine/"><div class="k">활용팁</div><h3>잠 못 드는 밤, 수면을 돕는 아로마 관리 루틴</h3><p>수면의 질을 높이고 싶은 분을 위한 아로마·수면 가능 관리 루틴과 생활 팁을 정리했습니다.…</p><span class="more">읽어보기 →</span></a><a class="card reveal" href="/magazine/course-time-guide/"><div class="k">코스·테마</div><h3>60·90·120분, 코스 시간 어떻게 고를까</h3><p>방문 관리 코스 시간(60·90·120분)을 목적과 컨디션에 맞게 고르는 기준을 정리한 가이드입니다.…</p><span class="more">읽어보기 →</span></a><a class="card reveal" href="/magazine/guro-life-area-guide/"><div class="k">지역·역세권</div><h3>구로구 생활권별 마사지 안내</h3><p>구로구 대표 동 10곳의 생활권 특징과 자주 찾는 관리를 한눈에 정리했습니다. 신도림·구로·고척·개봉·오류동 등.…</p><span class="more">읽어보기 →</span></a></div>
 </section>
 </div></div></section>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Blog", "name": "구로88마사지 매거진", "url": "https://guro-massage.pages.dev/magazine/", "blogPost": [{"@type": "BlogPosting", "headline": "구로 출장마사지·홈타이 처음 이용 가이드 | 예약부터 방문까지", "url": "https://guro-massage.pages.dev/magazine/guro-massage-first-guide/"}, {"@type": "BlogPosting", "headline": "스웨디시와 아로마테라피, 무엇이 다를까 | 선택 기준 안내", "url": "https://guro-massage.pages.dev/magazine/swedish-vs-aroma/"}, {"@type": "BlogPosting", "headline": "구로디지털단지 직장인을 위한 피로 회복 관리 | 어깨·허리 뭉침", "url": "https://guro-massage.pages.dev/magazine/office-worker-recovery/"}, {"@type": "BlogPosting", "headline": "홈타이 방문 전 준비, 이것만 확인하세요 | 공간·출입·주차", "url": "https://guro-massage.pages.dev/magazine/hometai-prepare-guide/"}, {"@type": "BlogPosting", "headline": "안전한 방문 관리를 위한 위생·안전 체크리스트 | 이용 기준", "url": "https://guro-massage.pages.dev/magazine/hygiene-safety-checklist/"}, {"@type": "BlogPosting", "headline": "구로 역세권별 방문 마사지 이용 팁 | 1·2·7호선", "url": "https://guro-massage.pages.dev/magazine/guro-station-area-tips/"}, {"@type": "BlogPosting", "headline": "커플·가족이 함께 받는 홈케어 안내 | 기념일·휴식", "url": "https://guro-massage.pages.dev/magazine/couple-home-care/"}, {"@type": "BlogPosting", "headline": "수면을 돕는 아로마 관리 루틴 | 잠 못 드는 밤", "url": "https://guro-massage.pages.dev/magazine/sleep-aroma-routine/"}, {"@type": "BlogPosting", "headline": "60·90·120분, 코스 시간 선택 가이드 | 목적별 추천", "url": "https://guro-massage.pages.dev/magazine/course-time-guide/"}, {"@type": "BlogPosting", "headline": "구로구 생활권별 마사지 안내 | 대표 동 10곳", "url": "https://guro-massage.pages.dev/magazine/guro-life-area-guide/"}]}</script><section class="block" id="price" aria-label="코스별 기본 요금"><div class="wrap">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Blog", "name": "구로88마사지 매거진", "url": "https://guro-massage.netlify.app/magazine/", "blogPost": [{"@type": "BlogPosting", "headline": "구로 출장마사지·홈타이 처음 이용 가이드 | 예약부터 방문까지", "url": "https://guro-massage.netlify.app/magazine/guro-massage-first-guide/"}, {"@type": "BlogPosting", "headline": "스웨디시와 아로마테라피, 무엇이 다를까 | 선택 기준 안내", "url": "https://guro-massage.netlify.app/magazine/swedish-vs-aroma/"}, {"@type": "BlogPosting", "headline": "구로디지털단지 직장인을 위한 피로 회복 관리 | 어깨·허리 뭉침", "url": "https://guro-massage.netlify.app/magazine/office-worker-recovery/"}, {"@type": "BlogPosting", "headline": "홈타이 방문 전 준비, 이것만 확인하세요 | 공간·출입·주차", "url": "https://guro-massage.netlify.app/magazine/hometai-prepare-guide/"}, {"@type": "BlogPosting", "headline": "안전한 방문 관리를 위한 위생·안전 체크리스트 | 이용 기준", "url": "https://guro-massage.netlify.app/magazine/hygiene-safety-checklist/"}, {"@type": "BlogPosting", "headline": "구로 역세권별 방문 마사지 이용 팁 | 1·2·7호선", "url": "https://guro-massage.netlify.app/magazine/guro-station-area-tips/"}, {"@type": "BlogPosting", "headline": "커플·가족이 함께 받는 홈케어 안내 | 기념일·휴식", "url": "https://guro-massage.netlify.app/magazine/couple-home-care/"}, {"@type": "BlogPosting", "headline": "수면을 돕는 아로마 관리 루틴 | 잠 못 드는 밤", "url": "https://guro-massage.netlify.app/magazine/sleep-aroma-routine/"}, {"@type": "BlogPosting", "headline": "60·90·120분, 코스 시간 선택 가이드 | 목적별 추천", "url": "https://guro-massage.netlify.app/magazine/course-time-guide/"}, {"@type": "BlogPosting", "headline": "구로구 생활권별 마사지 안내 | 대표 동 10곳", "url": "https://guro-massage.netlify.app/magazine/guro-life-area-guide/"}]}</script><section class="block" id="price" aria-label="코스별 기본 요금"><div class="wrap">
   <span class="eyebrow"><span class="pulse"></span>요금 안내</span>
   <h2 class="sec">코스별 기본 요금</h2>
   <p class="sec-lead">60·90·120분 코스별 기본 요금입니다. 숨겨진 추가 비용 없이 투명하게 안내합니다.</p>

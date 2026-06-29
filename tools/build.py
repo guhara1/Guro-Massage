@@ -29,7 +29,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE_NAME = "구로88마사지"
 TAGLINE = "GURO 88 MASSAGE"
 BRAND_MARK = "구"
-DOMAIN = "https://guro-massage.pages.dev"
+DOMAIN = "https://guro-massage.netlify.app"
 PHONE_DISPLAY = "0508-202-4719"
 PHONE_TEL = "+825082024719"
 # 날짜는 빌드 시점 기준으로 생성한다(요일 자동 정확 + 미래 날짜 방지 → 네이버 RSS 형식 오류 예방).
@@ -40,7 +40,7 @@ TODAY_ISO = _NOW.strftime("%Y-%m-%d")        # 사이트맵 lastmod / JSON-LD �
 TODAY_RFC822 = format_datetime(_NOW)          # RSS pubDate(RFC-822, 요일 자동 정확)
 
 # 사이트 소유확인(네이버 서치어드바이저 등). 빈 문자열이면 출력 안 함.
-NAVER_VERIFY = "0671f4b1198aa0458148f87059c58acbc2ba4a31"
+NAVER_VERIFY = "539db0d95b722253508c15a8e59b7d8c4cbfa7ed"
 
 # IndexNow 키(빙·네이버·얀덱스 즉시 색인 통보). 루트에 <키>.txt 파일로도 게시된다.
 # 새 사이트면 32자리 16진수로 교체하고 키 파일도 함께 갱신할 것.
@@ -65,6 +65,23 @@ PRICES = [
     ("60분 코스", "60분", "80,000", "기본 컨디션·릴렉스 케어", False),
     ("90분 코스", "90분", "120,000", "아로마 포함 추천 구성", True),
     ("120분 코스", "120분", "150,000", "전신 집중 프리미엄 케어", False),
+]
+
+# 이용 후기 — 후기 페이지 노출 + AggregateRating/Review 스키마 산출의 단일 출처(SSOT).
+# (별점, 후기 본문, 지역·코스 표기) 형식이며 ★ 개수가 평점(1~5)으로 환산된다.
+REVIEWS = [
+    ("★★★★★", "구로동에서 90분 코스로 받았는데 어깨 뭉침이 한결 가벼워졌어요. 예약 상담도 친절했습니다.", "구로동 · 90분 코스"),
+    ("★★★★★", "신도림역 근처 오피스텔로 방문 받았어요. 시간 약속을 잘 지켜주셔서 좋았습니다.", "신도림동 · 스웨디시"),
+    ("★★★★☆", "개봉동 자택에서 홈타이로 편하게 받았습니다. 이동 없이 받을 수 있어 만족해요.", "개봉동 · 홈타이"),
+    ("★★★★★", "운동 후 회복 목적으로 스포츠 관리 받았는데 시원하게 잘 풀어주셨어요.", "구로디지털단지 인근 · 스포츠"),
+    ("★★★★★", "기념일에 커플로 예약했어요. 두 사람 모두 편안하게 쉬다 갔습니다.", "천왕동 · 커플 관리"),
+    ("★★★★☆", "늦은 시간 상담이 가능해서 좋았습니다. 다음엔 아로마로 받아보려고요.", "온수동 · 24시간"),
+    ("★★★★★", "고척동 아파트로 방문해 주셨어요. 강도를 제가 원하는 만큼 맞춰 주셔서 편했습니다.", "고척동 · 60분 코스"),
+    ("★★★★★", "오류동에서 발마사지 위주로 받았는데 종일 서서 일한 다리가 가벼워졌어요.", "오류동 · 발마사지"),
+    ("★★★★☆", "남구로역 근처에서 늦은 밤에 받았습니다. 조용히 진행해 주셔서 바로 잠들었어요.", "가리봉동 · 수면 가능"),
+    ("★★★★★", "온수동 자택에서 아로마로 받았는데 향이 은은해서 스트레스가 풀렸습니다.", "온수동 · 아로마테라피"),
+    ("★★★★★", "항동 신축 단지로 방문 받았어요. 출입 안내를 미리 여쭤봐 주셔서 매끄러웠습니다.", "항동 · 90분 코스"),
+    ("★★★★☆", "구일역 인근에서 가족과 함께 받았어요. 두 자리 마련해 편하게 쉬었습니다.", "고척동 · 커플·가족"),
 ]
 
 # ---------------------------------------------------------------------------
@@ -250,6 +267,14 @@ details>div{padding:0 22px 20px;color:var(--muted);font-size:14.5px;line-height:
 .data-box{margin:24px 0;padding:20px 22px;border-radius:14px;background:var(--grad-soft);border:1px solid var(--line)}
 .data-box b{color:var(--gold);display:block;font-size:11px;letter-spacing:.14em;margin-bottom:8px;text-transform:uppercase}
 .data-box p{color:var(--muted);font-size:13.5px;margin:0;line-height:1.8}
+.linkgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:12px;margin:6px 0 4px}
+.linkgrid a{display:flex;flex-direction:column;gap:4px;padding:15px 17px;border-radius:13px;border:1px solid var(--line);
+  background:linear-gradient(135deg,var(--surface),var(--surface-2));transition:.25s;border-bottom:none}
+.linkgrid a:hover{transform:translateY(-3px);border-color:rgba(244,210,156,.34);box-shadow:0 16px 38px rgba(0,0,0,.3)}
+.linkgrid a b{color:var(--text);font-size:14.5px;font-weight:700;letter-spacing:-.01em;border-bottom:none}
+.linkgrid a span{color:var(--muted);font-size:12.5px;line-height:1.55}
+.linkgrid a b::after{content:" →";color:var(--rose);font-weight:700;opacity:0;transition:.25s}
+.linkgrid a:hover b::after{opacity:1}
 .lux-hero{position:relative;overflow:hidden;border-bottom:1px solid rgba(244,210,156,.14);
   background:radial-gradient(70% 120% at 88% -10%,rgba(233,184,167,.14),transparent 60%),
              linear-gradient(180deg,#0d1018,#0b0b0e);padding:54px 0 40px}
@@ -603,10 +628,53 @@ def _author():
             "url": DOMAIN + "/about/"}
 
 
-def jsonld_localbusiness():
+# --- 후기·평점 스키마 헬퍼 (REVIEWS 단일 출처에서 산출) -----------------------
+def _rating_value(stars):
+    """별점 문자열(★/☆)을 1~5 정수 평점으로 환산."""
+    return stars.count("★")
+
+
+def _aggregate_rating():
+    vals = [_rating_value(s) for s, _, _ in REVIEWS]
+    avg = round(sum(vals) / len(vals), 1)
+    return {"@type": "AggregateRating", "ratingValue": f"{avg}",
+            "reviewCount": str(len(REVIEWS)), "bestRating": "5", "worstRating": "1"}
+
+
+def _review_items(limit=None):
+    items = REVIEWS if limit is None else REVIEWS[:limit]
+    out = []
+    for stars, text, who in items:
+        out.append({
+            "@type": "Review",
+            "reviewRating": {"@type": "Rating", "ratingValue": str(_rating_value(stars)),
+                             "bestRating": "5", "worstRating": "1"},
+            "author": {"@type": "Person", "name": who},
+            "reviewBody": text,
+            "datePublished": TODAY_ISO,
+        })
+    return out
+
+
+def _offers():
+    return [{"@type": "Offer", "name": name, "price": won.replace(",", ""),
+             "priceCurrency": "KRW", "description": dsc,
+             "availability": "https://schema.org/InStock",
+             "url": DOMAIN + "/course/price/"}
+            for name, dur, won, dsc, best in PRICES]
+
+
+def _aggregate_offer():
+    return {"@type": "AggregateOffer", "priceCurrency": "KRW",
+            "lowPrice": "80000", "highPrice": "150000",
+            "offerCount": str(len(PRICES)), "offers": _offers()}
+
+
+def jsonld_localbusiness(review_limit=5):
     data = {
         "@context": "https://schema.org",
         "@type": "HealthAndBeautyBusiness",
+        "@id": DOMAIN + "/#business",
         "name": SITE_NAME,
         "description": "구로구 전지역 방문 건강관리(출장마사지·홈타이) 예약 안내",
         "url": DOMAIN + "/",
@@ -620,7 +688,32 @@ def jsonld_localbusiness():
             "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
             "opens": "00:00", "closes": "23:59"},
         "priceRange": "₩₩",
+        "makesOffer": _offers(),
+        "aggregateRating": _aggregate_rating(),
+        "review": _review_items(review_limit),
     }
+    return f'<script type="application/ld+json">{json.dumps(data, ensure_ascii=False)}</script>'
+
+
+def jsonld_service(name, desc, path, service_type="출장마사지·홈타이 방문 건강관리",
+                   with_offers=True, review_limit=3):
+    """지역·역·테마·코스 페이지용 Service 스키마(제공자·요금·평점·후기 포함)."""
+    data = {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": service_type,
+        "name": name,
+        "description": re.sub(r"<[^>]+>", "", desc),
+        "url": DOMAIN + path,
+        "areaServed": {"@type": "AdministrativeArea", "name": "서울특별시 구로구"},
+        "provider": {"@type": "HealthAndBeautyBusiness", "name": SITE_NAME,
+                     "@id": DOMAIN + "/#business", "url": DOMAIN + "/",
+                     "telephone": PHONE_TEL, "image": DOMAIN + "/assets/og-cover.svg"},
+        "aggregateRating": _aggregate_rating(),
+        "review": _review_items(review_limit),
+    }
+    if with_offers:
+        data["offers"] = _aggregate_offer()
     return f'<script type="application/ld+json">{json.dumps(data, ensure_ascii=False)}</script>'
 
 
@@ -688,7 +781,8 @@ def faq_block(items):
 
 
 def article_page(path, title, desc, eyebrow, crumb_items, h1, lead,
-                 sections, faq=None, og_type="website", blogposting=False):
+                 sections, faq=None, og_type="website", blogposting=False,
+                 extra_jsonld=None):
     """좌측 TOC + 본문 섹션 + FAQ 형태의 페이지."""
     toc = "".join(f'<li><a href="#{sid}">{html.escape(t)}</a></li>' for sid, t, _ in sections)
     body_secs = "".join(sec(sid, t, b) for sid, t, b in sections)
@@ -710,6 +804,8 @@ def article_page(path, title, desc, eyebrow, crumb_items, h1, lead,
         out += jsonld_blogposting(title, desc, path)
     if faq:
         out += jsonld_faq(faq)
+    if extra_jsonld:
+        out += extra_jsonld
     out += footer()
     return out, noindex
 
@@ -1196,6 +1292,52 @@ def theme_chip_links(pairs):
     return " · ".join(f'<a href="/theme/{s}/">{n}</a>' for s, n in pairs)
 
 
+def linkgrid(links):
+    """롱테일 내부링크 카드 그리드. links: [(href, 제목(롱테일 앵커), 보조설명), ...]"""
+    cells = "".join(
+        f'<a href="{h}"><b>{html.escape(t)}</b><span>{html.escape(s)}</span></a>'
+        for h, t, s in links)
+    return f'<div class="linkgrid">{cells}</div>'
+
+
+# 테마 slug → 이름 (롱테일 앵커 생성용)
+THEME_NAME = {t["slug"]: t["name"] for t in THEMES}
+# 역 이름 → slug (동 페이지의 near_st 이름을 역 상세 링크로 연결)
+STN_SLUG_BY_NAME = {STN[k]["name"]: STN[k]["slug"] for k in STN}
+
+# 동 인접 관계(생활권 기준) — 동 페이지 상호 내부링크용
+DONG_NEAR = {
+    "sindorim-dong": ["guro-dong", "garibong-dong"],
+    "guro-dong": ["sindorim-dong", "garibong-dong"],
+    "garibong-dong": ["guro-dong", "gocheok-dong"],
+    "gocheok-dong": ["gaebong-dong", "oryu-dong"],
+    "gaebong-dong": ["gocheok-dong", "oryu-dong"],
+    "oryu-dong": ["gaebong-dong", "onsu-dong"],
+    "cheonwang-dong": ["hang-dong", "onsu-dong"],
+    "hang-dong": ["cheonwang-dong", "gung-dong"],
+    "gung-dong": ["onsu-dong", "hang-dong"],
+    "onsu-dong": ["oryu-dong", "gung-dong"],
+}
+# 역 인접 관계(노선·생활권 기준) — 역 페이지 상호 내부링크용
+STN_NEAR = {
+    "sindorim": ["guro", "dorimcheon"], "guro": ["sindorim", "guil"],
+    "guil": ["guro", "gaebong"], "gaebong": ["guil", "oryudong"],
+    "oryudong": ["gaebong", "onsu"], "onsu": ["oryudong", "cheonwang"],
+    "dorimcheon": ["sindorim", "daerim"], "daerim": ["namguro", "gurodigital"],
+    "gurodigital": ["daerim", "namguro"], "namguro": ["daerim", "gurodigital"],
+    "cheonwang": ["onsu", "gaebong"],
+}
+# 테마 → 매거진 글(롱테일 연결)
+THEME_MAG = {
+    "swedish": ("swedish-vs-aroma", "스웨디시와 아로마, 무엇이 다를까"),
+    "aroma-therapy": ("sleep-aroma-routine", "수면을 돕는 아로마 루틴"),
+    "sports-massage": ("office-worker-recovery", "직장인 피로 회복 마사지 활용법"),
+    "couple": ("couple-home-care", "커플·가족 홈케어 즐기는 법"),
+    "home-care": ("hometai-prepare-guide", "홈타이 방문 전 준비 가이드"),
+    "sleep-available": ("sleep-aroma-routine", "잠들기 전 이완 루틴"),
+}
+
+
 # ---------------------------------------------------------------------------
 # 5. 메인 페이지 (/) — 구로 전체 허브
 # ---------------------------------------------------------------------------
@@ -1323,10 +1465,31 @@ def build_home():
         "않습니다. 본 서비스는 의료 행위가 아닌 이완·휴식 목적의 건강관리이며 만 19세 이상 성인을 대상으로 합니다. "
         "운영 주체와 방침은 <a href='/about/'>운영 정보</a>에서 확인하실 수 있습니다.</p>")
 
+    body += sec("explore", "구로 출장마사지·홈타이 자주 찾는 주제",
+        "<p>찾으시는 주제를 바로 눌러 확인하세요. 지역·역세권·테마·코스 안내로 연결됩니다.</p>" +
+        linkgrid([
+            ("/guro-gu/guro-dong/", "구로동 출장마사지·홈타이 방문 안내", "IT 업무지구·대단지 생활권"),
+            ("/guro-gu/sindorim-dong/", "신도림동 출장마사지 예약 안내", "1·2호선 환승 생활권"),
+            ("/guro-gu/stations/sindorim-station/", "신도림역 인근 방문 마사지", "역세권 동선·이용 팁"),
+            ("/guro-gu/stations/gurodigital-station/", "구로디지털단지역 근처 마사지", "야근 후 직장인 피로 회복"),
+            ("/theme/swedish/", "구로 스웨디시 마사지 안내", "부담 없이 전신을 푸는 이완"),
+            ("/theme/aroma-therapy/", "아로마테라피 홈타이 안내", "향과 함께 깊은 휴식"),
+            ("/theme/sports-massage/", "스포츠·경락 마사지 안내", "뭉친 근육 집중 회복"),
+            ("/theme/24hours/", "구로 24시간 마사지 안내", "심야·새벽 시간대 이용"),
+            ("/course/home/", "구로 홈타이 코스 안내", "가정 방문 이완 관리"),
+            ("/course/couple/", "커플·가족 방문 관리 안내", "두 분이 함께 받는 구성"),
+            ("/magazine/swedish-vs-aroma/", "스웨디시와 아로마 차이", "처음 고를 때 비교 가이드"),
+            ("/magazine/course-time-guide/", "60·90·120분 코스 선택 기준", "시간대별 추천"),
+        ]))
+
     body += '</div></div></section>\n'
     out += body
     out += faq_block(faq)
     out += jsonld_localbusiness()
+    out += jsonld_service(
+        "구로 출장마사지·홈타이 방문 건강관리",
+        "구로구 전지역 방문 마사지·홈타이 예약 안내. 60·90·120분 코스와 테마별 관리를 제공합니다.",
+        "/", review_limit=5)
     out += jsonld_faq(faq)
     out += footer()
     write(path, out, priority="1.0", changefreq="daily")
@@ -1395,7 +1558,8 @@ def build_guro_hub():
         [("홈", "/"), ("구로 출장마사지", "")],
         "구로 출장마사지·홈타이 예약 안내",
         "구로구 전지역 방문 관리(출장마사지·홈타이)의 가능 지역, 코스, 예약 절차를 한곳에 정리한 안내입니다.",
-        secs, faq)
+        secs, faq,
+        extra_jsonld=jsonld_service("구로 출장마사지·홈타이", desc, path))
     write(path, h, priority="0.9", noindex=ni)
 
     # /guro/faq/
@@ -1482,7 +1646,8 @@ def build_area():
         [("홈", "/"), ("지역별 안내", "")],
         "구로구 지역별 출장마사지·홈타이 안내",
         "구로구 대표 동 10곳의 생활권별 방문 관리 안내입니다. 각 동의 특징과 주변 역세권, 관련 테마를 확인하세요.",
-        secs, faq)
+        secs, faq,
+        extra_jsonld=jsonld_service("구로구 지역별 출장마사지·홈타이", desc, path))
     write(path, h, priority="0.9", noindex=ni)
 
     for d in DONGS:
@@ -1536,6 +1701,21 @@ def build_dong(d):
          "<div class='data-box'><b>안내</b><p>본 서비스는 의료 행위가 아닌 건강관리(이완·휴식) 목적이며, "
          "만 19세 이상 성인을 대상으로 합니다. 불법·퇴폐 행위는 일절 제공하지 않습니다.</p></div>"),
     ]
+    # 롱테일 내부링크: 인접 동 + 인근 역 + 관련 테마 + 매거진
+    rel = []
+    for ns in DONG_NEAR.get(d["slug"], []):
+        nd = next((x for x in DONGS if x["slug"] == ns), None)
+        if nd:
+            rel.append((f"/guro-gu/{nd['slug']}/", f"{nd['name']} 출장마사지·홈타이 안내", nd["tag"]))
+    for stn_name in d["near_st"][:2]:
+        sl = STN_SLUG_BY_NAME.get(stn_name)
+        if sl:
+            rel.append((f"/guro-gu/stations/{sl}/", f"{stn_name} 인근 방문 마사지 안내", "역세권 동선·이용 팁"))
+    for tslug, tname in d["themes"][:2]:
+        rel.append((f"/theme/{tslug}/", f"{name} {tname} 안내", f"{name}에서 {why.get(tslug, '많이 찾는 관리')}"))
+    rel.append(("/magazine/guro-life-area-guide/", "구로 생활권별 마사지 이용 안내", "지역 특성에 맞춘 활용 가이드"))
+    secs.append(("explore", f"{name} 인근 지역·역·추천 주제",
+        f"<p>{name} 주변 지역과 가까운 지하철역, {name}에서 많이 찾는 테마 안내를 함께 확인해 보세요.</p>" + linkgrid(rel)))
     faq = [
         (f"{name} 어디까지 방문이 가능한가요?",
          f"{name} 생활권을 기준으로 안내하며, 정확한 가능 여부는 예약 시 방문 주소와 시간, 그날의 배정 상황에 따라 "
@@ -1556,7 +1736,8 @@ def build_dong(d):
         [("홈", "/"), ("지역별 안내", "/guro-gu/"), (name, "")],
         f"{name} 출장마사지·홈타이 예약 안내",
         f"구로구 {name} 생활권의 방문 관리 안내입니다. {d['tag']} 특성에 맞춰 예약과 코스를 안내합니다.",
-        secs, faq)
+        secs, faq,
+        extra_jsonld=jsonld_service(f"{name} 출장마사지·홈타이", desc, path))
     write(path, h, priority="0.8", noindex=ni)
 
 
@@ -1618,6 +1799,7 @@ def build_stations():
         ("어느 역까지 방문이 가능한가요?", "구로구 전지역을 기준으로 안내하며, 가능 여부는 예약 시 정확한 도착 주소와 시간으로 확인합니다."),
     ])
     out += jsonld_breadcrumb([("홈", "/"), ("지하철역별 안내", "/guro-gu/stations/")])
+    out += jsonld_service("구로 지하철역별 출장마사지·홈타이", desc, path)
     out += footer()
     write(path, out, priority="0.9")
 
@@ -1668,6 +1850,18 @@ def build_station(key):
          "참고하세요. 본 서비스는 의료 행위가 아닌 이완·휴식 목적의 건강관리이며, 만 19세 이상 성인을 대상으로 "
          "합니다.</p>"),
     ]
+    # 롱테일 내부링크: 대표 동 + 인접 역 + 관련 테마 + 매거진
+    rel = [(f"/guro-gu/{dong_slug}/", f"{dong_name} 출장마사지·홈타이 안내", f"{name} 인근 대표 생활권")]
+    for nk in STN_NEAR.get(key, []):
+        if nk in STN:
+            rel.append((f"/guro-gu/stations/{STN[nk]['slug']}/",
+                        f"{STN[nk]['name']} 인근 방문 마사지 안내", f"{STN[nk]['lines']} 역세권"))
+    if dd:
+        for tslug, tname in dd["themes"][:2]:
+            rel.append((f"/theme/{tslug}/", f"{tname} 마사지 안내", f"{dong_name}에서 많이 찾는 관리"))
+    rel.append(("/magazine/guro-station-area-tips/", "구로 역세권별 마사지 이용 팁", "역 주변 동선과 준비 안내"))
+    secs.append(("explore", f"{name} 인근에서 함께 보면 좋은 안내",
+        f"<p>{name} 주변 대표 동과 가까운 역, 자주 찾는 테마 안내를 함께 확인해 보세요.</p>" + linkgrid(rel)))
     faq = [
         (f"{name} 근처도 방문이 가능한가요?",
          f"{name} 인근 생활권을 기준으로 안내하며, 정확한 가능 여부는 예약 시 방문 주소와 시간, 배정 상황에 따라 "
@@ -1690,7 +1884,8 @@ def build_station(key):
         f"{name} 출장마사지·홈타이 예약 안내",
         f"{st['desc']} 구로구 {name}({st['lines']}) 인근의 주변 환경과 대표 동, 이용 동선과 팁, 예약 절차까지 "
         "정리했습니다.",
-        secs, faq)
+        secs, faq,
+        extra_jsonld=jsonld_service(f"{name} 인근 출장마사지·홈타이", desc, path))
     write(path, h, priority="0.7", noindex=ni)
 
 
@@ -1745,7 +1940,8 @@ def build_themes():
         [("홈", "/"), ("테마별 안내", "")],
         "테마별 마사지 안내",
         "관리 유형별 특징과 추천 대상을 정리한 테마 안내입니다. 원하는 관리를 골라 예약 상담에 참고하세요.",
-        secs, faq)
+        secs, faq,
+        extra_jsonld=jsonld_service("구로 테마별 마사지", desc, path))
     write(path, h, priority="0.8", noindex=ni)
     for t in THEMES:
         build_theme(t)
@@ -1777,6 +1973,20 @@ def build_theme(t):
          "통증이 심하거나 특정 질환이 있다면 무리한 관리보다 전문의 진료를 먼저 권하며, 본 서비스는 의료 행위가 "
          "아닌 이완·휴식 목적의 건강관리로 만 19세 이상 성인을 대상으로 합니다.</p>"),
     ]
+    # 롱테일 내부링크: 관련 테마 + 코스 + 매거진
+    idx = next((i for i, x in enumerate(THEMES) if x["slug"] == t["slug"]), 0)
+    rel = []
+    for off in (1, 2):
+        rt = THEMES[(idx + off) % len(THEMES)]
+        rel.append((f"/theme/{rt['slug']}/", f"{rt['name']} 마사지 안내", html.escape(rt["feat"])))
+    course_for = {"home-care": ("home", "홈타이 코스"), "aroma-therapy": ("aroma", "아로마 관리"),
+                  "sports-massage": ("sports", "스포츠 관리"), "couple": ("couple", "커플·가족 방문 관리")}
+    cslug, cname = course_for.get(t["slug"], ("guide", "코스 선택 가이드"))
+    rel.append((f"/course/{cslug}/", f"{cname} 안내", f"{name}와 함께 고르기 좋은 코스"))
+    mslug, mtitle = THEME_MAG.get(t["slug"], ("swedish-vs-aroma", "스웨디시와 아로마 차이"))
+    rel.append((f"/magazine/{mslug}/", mtitle, "매거진에서 더 읽어보기"))
+    secs.append(("explore", f"{name}와 함께 보면 좋은 안내",
+        f"<p>{name}와 어울리는 다른 테마와 코스, 매거진 글을 함께 확인해 보세요.</p>" + linkgrid(rel)))
     faq = [
         (f"{name}는 처음이어도 괜찮나요?",
          "예. 강도와 방식을 조절할 수 있으니 예약 시 처음임을 알려주시면 컨디션에 맞춰 편안하게 진행합니다. "
@@ -1799,7 +2009,8 @@ def build_theme(t):
         f"{name} 마사지 안내",
         f"{t['feat']} {name}의 특징과 기대 효과, 추천 대상, 진행 방식, 잘 맞는 코스 조합과 예약 전 "
         "확인사항까지 한 페이지에 정리했습니다.",
-        secs, faq)
+        secs, faq,
+        extra_jsonld=jsonld_service(f"{name} 마사지", desc, path, service_type=f"{name} 방문 건강관리"))
     write(path, h, priority="0.7", noindex=ni)
 
 
@@ -1895,7 +2106,8 @@ def build_courses():
         [("홈", "/"), ("코스안내", "")],
         "구로 출장마사지·홈타이 코스안내",
         "목적과 컨디션에 맞는 코스를 고를 수 있도록 코스 종류와 기준 요금을 정리했습니다.",
-        secs, faq)
+        secs, faq,
+        extra_jsonld=jsonld_service("구로 출장마사지·홈타이 코스", desc, path))
     write(path, h, priority="0.8", noindex=ni)
     for c in COURSES:
         build_course(c)
@@ -1940,11 +2152,13 @@ def build_course(c):
         ("테마와 함께 받을 수 있나요?", "예. 코스 시간과 원하는 테마를 함께 선택하실 수 있습니다."),
         ("가격은 어디서 보나요?", "가격 안내 페이지에서 기준 요금을 확인하고 예약 상담에서 최종 확정합니다."),
     ]
+    # 가격 안내 페이지는 요금 Offer를, 그 외 코스는 평점 포함 Service 스키마를 노출
     h, ni = article_page(path, title, desc, f"코스안내 · {name}",
         [("홈", "/"), ("코스안내", "/course/"), (name, "")],
         f"{name}",
         f"{html.escape(c['desc'])}",
-        secs, faq)
+        secs, faq,
+        extra_jsonld=jsonld_service(f"{name} (구로 출장마사지·홈타이)", desc, path))
     write(path, h, priority="0.7", noindex=ni)
 
 
@@ -2254,20 +2468,8 @@ def build_reviews():
     path = "/reviews/"
     title = "이용 후기 | 구로 출장마사지·홈타이"
     desc = "구로 출장마사지·홈타이 이용 후기와 후기 작성 안내입니다. 지역별·역세권 이용 경험을 참고하세요."
-    reviews = [
-        ("★★★★★", "구로동에서 90분 코스로 받았는데 어깨 뭉침이 한결 가벼워졌어요. 예약 상담도 친절했습니다.", "구로동 · 90분 코스"),
-        ("★★★★★", "신도림역 근처 오피스텔로 방문 받았어요. 시간 약속을 잘 지켜주셔서 좋았습니다.", "신도림동 · 스웨디시"),
-        ("★★★★☆", "개봉동 자택에서 홈타이로 편하게 받았습니다. 이동 없이 받을 수 있어 만족해요.", "개봉동 · 홈타이"),
-        ("★★★★★", "운동 후 회복 목적으로 스포츠 관리 받았는데 시원하게 잘 풀어주셨어요.", "구로디지털단지 인근 · 스포츠"),
-        ("★★★★★", "기념일에 커플로 예약했어요. 두 사람 모두 편안하게 쉬다 갔습니다.", "천왕동 · 커플 관리"),
-        ("★★★★☆", "늦은 시간 상담이 가능해서 좋았습니다. 다음엔 아로마로 받아보려고요.", "온수동 · 24시간"),
-        ("★★★★★", "고척동 아파트로 방문해 주셨어요. 강도를 제가 원하는 만큼 맞춰 주셔서 편했습니다.", "고척동 · 60분 코스"),
-        ("★★★★★", "오류동에서 발마사지 위주로 받았는데 종일 서서 일한 다리가 가벼워졌어요.", "오류동 · 발마사지"),
-        ("★★★★☆", "남구로역 근처에서 늦은 밤에 받았습니다. 조용히 진행해 주셔서 바로 잠들었어요.", "가리봉동 · 수면 가능"),
-        ("★★★★★", "온수동 자택에서 아로마로 받았는데 향이 은은해서 스트레스가 풀렸습니다.", "온수동 · 아로마테라피"),
-        ("★★★★★", "항동 신축 단지로 방문 받았어요. 출입 안내를 미리 여쭤봐 주셔서 매끄러웠습니다.", "항동 · 90분 코스"),
-        ("★★★★☆", "구일역 인근에서 가족과 함께 받았어요. 두 자리 마련해 편하게 쉬었습니다.", "고척동 · 커플·가족"),
-    ]
+    reviews = REVIEWS
+    _agg = _aggregate_rating()
     cards = "".join(
         f'<div class="review reveal"><div class="stars">{s}</div><p>{html.escape(t)}</p>'
         f'<div class="who">{html.escape(w)}</div></div>' for s, t, w in reviews)
@@ -2296,7 +2498,12 @@ def build_reviews():
             f'<div class="lux-main" style="max-width:none">{"".join(sec(a,b,c) for a,b,c in intro_secs)}</div></div></section>\n')
     out += f"""<section class="block" style="padding-top:0"><div class="wrap">
   <span class="eyebrow"><span class="pulse"></span>REVIEWS</span>
-  <h2 class="sec" style="margin-bottom:20px">이용자 후기</h2>
+  <h2 class="sec" style="margin-bottom:8px">이용자 후기</h2>
+  <div class="data-box" style="margin:0 0 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px">
+    <span style="font-size:34px;font-weight:800;letter-spacing:-.03em" class="grad">{_agg['ratingValue']}</span>
+    <span><span class="stars" style="color:var(--gold);font-size:15px;letter-spacing:2px">★★★★★</span>
+      <span style="display:block;color:var(--muted);font-size:13px;margin-top:2px">총 {_agg['reviewCount']}개 후기 · 5점 만점</span></span>
+  </div>
   <div class="grid g3">{cards}</div>
   <div class="data-box" style="margin-top:24px"><b>후기 작성 안내</b><p>후기는 실제 이용 경험을 바탕으로 작성해 주세요. 과장·허위 후기나 타인의 권리를 침해하는 내용은 게시될 수 없습니다. 작성 방법은 고객센터 1:1 문의로 안내드립니다.</p></div>
 </div></section>
@@ -2307,6 +2514,8 @@ def build_reviews():
         ("후기의 지역·코스 표기는 무엇인가요?", "어떤 생활권에서 어떤 코스·테마로 받은 경험인지 나타내, 비슷한 상황의 후기를 참고하기 쉽도록 한 것입니다."),
     ])
     out += jsonld_breadcrumb([("홈", "/"), ("후기", "/reviews/")])
+    # 후기 페이지: 전체 후기 + AggregateRating(점수)를 사업장 스키마로 표기
+    out += jsonld_localbusiness(review_limit=None)
     out += footer()
     write(path, out, priority="0.6")
 
