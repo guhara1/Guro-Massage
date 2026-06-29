@@ -1,6 +1,6 @@
 # Seoul 마사지 — 사이트 전체 사양서 (재사용용)
 
-> 이 문서는 **seoul-massage-at6.pages.dev** 사이트의 디자인·메뉴·콘텐츠·푸터·SEO·
+> 이 문서는 **guro-massage.netlify.app** 사이트의 디자인·메뉴·콘텐츠·푸터·SEO·
 > 생성 시스템을 **한 곳에 정리**한 사양서입니다. 다른 지역/업종 사이트를 만들 때
 > 이 문서의 값만 바꾸면 동일한 구조를 그대로 복제할 수 있도록 작성했습니다.
 >
@@ -15,7 +15,7 @@
 | 항목 | 값 |
 |---|---|
 | 사이트명 | Seoul 마사지 (서울 출장마사지·홈타이 안내) |
-| 운영 도메인 | `https://seoul-massage-at6.pages.dev` |
+| 운영 도메인 | `https://guro-massage.netlify.app` |
 | 호스팅 | Cloudflare Pages (정적, GitHub repo 연결 자동배포) |
 | 업종 | 지역 기반 방문 건강관리(출장마사지·홈타이) 예약 안내 |
 | 출력물 | 순수 정적 HTML — 페이지당 단일 파일, **인라인 CSS/JS** (외부 의존성 0) |
@@ -284,7 +284,7 @@ thai-therapist-couple
 `<head>` 표준 구성:
 - `<title>` : `핵심키워드 | 보조설명` 패턴
 - `meta description` (요약), `meta author = "YH LAB 운영팀"`
-- `link canonical` = 자기 절대 URL (도메인 `seoul-massage-at6.pages.dev`)
+- `link canonical` = 자기 절대 URL (도메인 `guro-massage.netlify.app`)
 - `hreflang` : `ko-KR` + `x-default` (자기 URL)
 - Open Graph: `og:type`(website/article), `og:site_name="Seoul 마사지"`, `og:locale=ko_KR`,
   `og:title/description/url`, `og:image=/assets/og-cover.jpg` (1200×630)
@@ -344,7 +344,7 @@ A(slug=, cat=, title=, h1=, desc=, lead=,
 
 ## 9. 새 사이트 만들 때 교체 체크리스트
 
-1. **도메인**: 전 파일 `seoul-massage-at6.pages.dev` → 신규 도메인 일괄 치환
+1. **도메인**: 전 파일 `guro-massage.netlify.app` → 신규 도메인 일괄 치환
    (canonical/OG/sitemap/robots `Host`·`Sitemap` 포함).
 2. **사업자 정보**(§1): 상호·대표·사업자번호·주소·전화(`tel:`)·개인정보책임자.
 3. **사이트명/브랜드**: `Seoul 마사지`, 헤더 `.brand`(이니셜 S), `og:site_name`.
